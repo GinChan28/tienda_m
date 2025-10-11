@@ -1,7 +1,7 @@
 package com.tienda_m.controller;
 
-import com.tienda_m.domain.Producto;
-import com.tienda_m.service.ProductoService;
+import com.tienda_m.domain.Categoria;
+import com.tienda_m.service.CategoriaService;
 import jakarta.validation.Valid;
 import java.util.Locale;
 import java.util.Optional;
@@ -18,67 +18,67 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/producto")
-public class ProductoController {
+@RequestMapping("/categoria")
+public class CategoriaController {
 
     @Autowired
-    private ProductoService productoService;
+    private CategoriaService categoriaService;
     
     @GetMapping("/listado")
     public String listado(Model model) {
-        var productos = productoService.getProductos(false);
-        model.addAttribute("productos", productos);
-        model.addAttribute("totalProductos", productos.size());
-        return "/producto/listado";
+        var categorias = categoriaService.getCategorias(false);
+        model.addAttribute("categorias", categorias);
+        model.addAttribute("totalCategorias", categorias.size());
+        return "/categoria/listado";
     }
     
     @Autowired
     private MessageSource messageSource;
     
     @PostMapping("/guardar")
-    public String guardar(@Valid Producto producto,
+    public String guardar(@Valid Categoria categoria,
             @RequestParam MultipartFile imagenFile,
             RedirectAttributes redirectAttributes){
-        productoService.save(producto, imagenFile);
+        categoriaService.save(categoria, imagenFile);
         redirectAttributes.addFlashAttribute("todoOk",
                 messageSource.getMessage("mensaje.actualizado", null, Locale.getDefault())
         );
-        return "redirect:/producto/listado";
+        return "redirect:/categoria/listado";
     }
     @PostMapping("/eliminar")
-    public String eliminar(@RequestParam Integer idProducto,
+    public String eliminar(@RequestParam Integer idCategoria,
             RedirectAttributes redirectAttributes) { 
         String titulo= "todoOk";
         String detalle= "mensaje.eliminado";
         try {
-            productoService.delete(idProducto);
+            categoriaService.delete(idCategoria);
         } catch (IllegalArgumentException e){
-            titulo="error"; //Captura el que no exista la producto...
-            detalle="producto.error01";
+            titulo="error"; //Captura el que no exista la categoria...
+            detalle="categoria.error01";
         } catch (IllegalStateException e){
-            titulo="error"; //Captura el que no exista la producto...
-            detalle="producto.error02";
+            titulo="error"; //Captura el que no exista la categoria...
+            detalle="categoria.error02";
         } catch (Exception e) {
-           titulo="error"; //Captura el que no exista la producto...
-           detalle="producto.error03";
+           titulo="error"; //Captura el que no exista la categoria...
+           detalle="categoria.error03";
         }
         redirectAttributes.addFlashAttribute(titulo,
                 messageSource.getMessage(detalle, null, Locale.getDefault()));
-        return "redirect:/producto/listado";
+        return "redirect:/categoria/listado";
  }
-    @GetMapping("/modificar/{idProducto}")
-    public String modificar(@PathVariable Integer idProducto,
+    @GetMapping("/modificar/{idCategoria}")
+    public String modificar(@PathVariable Integer idCategoria,
             Model model,
             RedirectAttributes redirectAttributes) {
         
-        Optional<Producto> productoOpt = productoService.getProducto(idProducto);
+        Optional<Categoria> categoriaOpt = categoriaService.getCategoria(idCategoria);
         
-        if (productoOpt.isEmpty()) {
+        if (categoriaOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("error",
-                messageSource.getMessage("producto.error01", null, Locale.getDefault()));
-            return "redirect:/producto/listado";
+                messageSource.getMessage("categoria.error01", null, Locale.getDefault()));
+            return "redirect:/categoria/listado";
         }
-        model.addAttribute("producto", productoOpt.get());
-        return "/producto/modifica";
+        model.addAttribute("categoria", categoriaOpt.get());
+        return "/categoria/modifica";
     }
 }
