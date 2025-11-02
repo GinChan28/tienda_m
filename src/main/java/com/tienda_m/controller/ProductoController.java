@@ -19,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/categoria")
-public class CategoriaController {
+public class ProductoController {
 
     @Autowired
     private CategoriaService categoriaService;
