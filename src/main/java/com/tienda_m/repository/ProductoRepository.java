@@ -24,4 +24,7 @@ public interface ProductoRepository extends JpaRepository<Producto, Integer> {
         nativeQuery = true
     )
     public List<Producto> consultaSQL(BigDecimal precioInf, BigDecimal precioSup);
+    
+    
+    public List<Producto> findByCategoriaDescripcionContainingIgnoreCaseAndPrecioBetweenOrderByPrecioAsc(String categoria,BigDecimal precioInf,BigDecimal precioSup);
 }

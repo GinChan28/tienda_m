@@ -7,13 +7,20 @@ import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
 
-@Data
-@Entity
-@Table(name="categoria")
+
+
+@Data 
+@Entity 
+@Table(name="categoria") 
+
+
+
 public class Categoria implements Serializable {
-    private static final long serialVersionUID = 1L;
+    
+    private static final long serialVersionUID = 1L; 
     
     @Id
+    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCategoria;
     
@@ -22,12 +29,13 @@ public class Categoria implements Serializable {
     @Size(max=50)
     private String descripcion;
     
-    @Column(length=1024)    
-    @Size(max=1024)    
+    @Column(length=1024)
+    @Size(max=1024)
     private String rutaImagen;
-    
     private boolean activo;
-
+    
     @OneToMany(mappedBy = "categoria")
     private List<Producto> productos;
+    
+    
 }

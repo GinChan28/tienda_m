@@ -25,7 +25,7 @@
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/categoria/listado}">[[#{plantilla.categorias}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/producto/listado}">[[#{plantilla.productos}]]</a></li>
                             <li class="nav-item px-2"><a class="nav-link" th:href="@{/consultas/listado}">[[#{plantilla.consultas}]]</a></li>
-                            
+
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
                                     [[#{plantilla.admin}]]</a>
@@ -55,10 +55,44 @@
                                     <li><a class="dropdown-item" th:href="@{/(lang=en)}">English</a></li>
                                     <li><a class="dropdown-item" th:href="@{/(lang=fr)}">Française</a></li>
                                     <li><a class="dropdown-item" th:href="@{/(lang=pt)}">Portugaise</a></li>
+                                    <li><a class="dropdown-item" th:href="@{/(lang=it)}">Italiano</a></li>
                                 </ul>
                             </li>
                         </ul>
                         <div id="resultBlock">
+
+
+                            <ul class = "navbar-nav" sec:authorize="!isAuthenticated">
+                                <li class="navbar-item">
+                                    <a class="nav-link" th:href="@{/login}">
+                                        <i class="fas fa-sign-in-alt"></i>
+                                        <span class = "ms-1">Login</span>
+                                    </a>
+                                </li>
+
+                            </ul>
+                            <ul class = "navbar-nav" sec:authorize="isAuthenticated()">
+                                <li class="navbar-items my-auto">
+                                    <a class="nav-link">
+                                        <i class="fas fa-user"></i>
+                                        <span sec:authentication = "name" class = "ms-1"></span>
+                                    </a>
+                                </li>
+
+                                <li class="navbar-items my-auto">
+                                    <form method="post" th:action="@{/logout}">
+                                        <button class="btn nav-link" thype="submit">
+                                            <i class="fas fa-sign-out-alt"></i>
+
+                                            <span class = "ms-1">Logout</span>
+                                        </button>
+                                    </form>
+                                </li>
+
+
+
+                            </ul>
+
                         </div>
                     </div>
                 </div>
@@ -77,6 +111,7 @@
         <footer th:fragment="footer" class="p-2 mt-5 bg-info text-white">
             <p class="lead text-center">[[#{plantilla.derechos}]] &COPY;</p>
         </footer>
+
         <section th:fragment="mostrarToast">
             <div aria-live="polite" aria-atomic="true" 
                  class="position-fixed top-50 start-50 translate-middle" style="z-index: 1080;">                
@@ -114,6 +149,7 @@
                 </div>
             </div>
         </section>
+
     </body>
 </html>
 
